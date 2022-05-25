@@ -1,6 +1,7 @@
 package com.api.campeonatovolei.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class TimeModel {
@@ -11,6 +12,10 @@ public class TimeModel {
 
     @Column(nullable = false)
     private String nome;
+
+    @Column
+    @ManyToMany(mappedBy = "times")
+    private List<CampeonatoModel> campeonatos;
 
     public TimeModel() {
     }
