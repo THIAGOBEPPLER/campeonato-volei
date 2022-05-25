@@ -3,7 +3,8 @@ package com.api.campeonatovolei.models;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "Time")
+
 public class TimeModel {
 
     @Id
@@ -20,9 +21,10 @@ public class TimeModel {
     public TimeModel() {
     }
 
-    public TimeModel(Integer id, String nome) {
+    public TimeModel(Integer id, String nome, List<CampeonatoModel> campeonatos) {
         this.id = id;
         this.nome = nome;
+        this.campeonatos = campeonatos;
     }
 
     public Integer getId() {
@@ -39,5 +41,13 @@ public class TimeModel {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<CampeonatoModel> getCampeonatos() {
+        return campeonatos;
+    }
+
+    public void setCampeonatos(List<CampeonatoModel> campeonatos) {
+        this.campeonatos = campeonatos;
     }
 }

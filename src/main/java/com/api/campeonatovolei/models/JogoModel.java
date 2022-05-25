@@ -2,7 +2,8 @@ package com.api.campeonatovolei.models;
 
 import javax.persistence.*;
 
-@Entity
+
+@Entity(name = "Jogo")
 public class JogoModel {
 
     @Id
