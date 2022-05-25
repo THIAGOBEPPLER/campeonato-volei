@@ -1,4 +1,6 @@
-package com.api.campeonatovolei.models;
+package com.api.campeonatovolei.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +21,7 @@ public class CampeonatoModel {
     @Column
     @ManyToMany
     @JoinTable(name = "Campeonato_Time", joinColumns = @JoinColumn(name = "campeonato_id"), inverseJoinColumns = @JoinColumn(name = "time_id"))
+    @JsonIgnore
     private List<TimeModel> times;
 
     public CampeonatoModel() {

@@ -1,7 +1,7 @@
 package com.api.campeonatovolei.services;
 
 import com.api.campeonatovolei.dtos.TimeDto;
-import com.api.campeonatovolei.models.TimeModel;
+import com.api.campeonatovolei.entities.TimeModel;
 import org.springframework.stereotype.Service;
 import com.api.campeonatovolei.repositories.TimeRepository;
 

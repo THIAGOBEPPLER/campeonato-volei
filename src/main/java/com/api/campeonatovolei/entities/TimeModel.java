@@ -1,4 +1,4 @@
-package com.api.campeonatovolei.models;
+package com.api.campeonatovolei.entities;
 
 import javax.persistence.*;
 import java.util.List;
