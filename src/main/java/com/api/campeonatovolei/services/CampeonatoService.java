@@ -5,6 +5,7 @@ import com.api.campeonatovolei.dtos.FinalizarCampeonatoDto;
 import com.api.campeonatovolei.entities.CampeonatoModel;
 import com.api.campeonatovolei.entities.TimeModel;
 import com.api.campeonatovolei.repositories.CampeonatoRepository;
+import com.api.campeonatovolei.repositories.JogoRepository;
 import com.api.campeonatovolei.repositories.TimeRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ public class CampeonatoService {
 
     final CampeonatoRepository campeonatoRepository;
     final TimeRepository timeRepository;
+    final JogoRepository jogoRepository;
 
-    public CampeonatoService(CampeonatoRepository campeonatoRepository, TimeRepository timeRepository) {
+    public CampeonatoService(CampeonatoRepository campeonatoRepository, TimeRepository timeRepository, JogoRepository jogoRepository) {
         this.campeonatoRepository = campeonatoRepository;
         this.timeRepository = timeRepository;
+        this.jogoRepository = jogoRepository;
     }
 
 
@@ -56,7 +59,10 @@ public class CampeonatoService {
         if (campeonato == null)
             return "Campeonato não cadastrado";
 
-        //TODO: validar jogos em andamento
+        var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(finalizarCampeonato.getId(), false);
+
+        if (jogos.size() != 0)
+            return "Esse campeonato possui jogos em andamento";
 
         if (campeonato.getFinalizado())
             return "Campeonato já finalizado";
