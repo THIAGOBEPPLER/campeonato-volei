@@ -1,5 +1,6 @@
 package com.api.campeonatovolei.services;
 
+import com.api.campeonatovolei.dtos.AtualizarPontuacaoDto;
 import com.api.campeonatovolei.dtos.CriarJogoDto;
 import com.api.campeonatovolei.entities.JogoModel;
 import com.api.campeonatovolei.entities.TimeModel;
@@ -35,7 +36,7 @@ public class JogoService {
             return "Campeonato não cadastrado!";
 
         if(campeonato.getFinalizado())
-            return "Campeonato já foi finalizado";
+            return "Campeonato já foi finalizado!";
 
 
         var times = campeonato.getTimes();
@@ -43,10 +44,10 @@ public class JogoService {
         var timesIds = times.stream().map(TimeModel::getId).collect(Collectors.toList());
 
         if(!timesIds.contains(jogoDto.getTimeId1()))
-            return "Time1 não está nesse campeonato";
+            return "Time1 não está nesse campeonato!";
 
         if(!timesIds.contains(jogoDto.getTimeId2()))
-            return "Time2 não está nesse campeonato";
+            return "Time2 não está nesse campeonato!";
 
         var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(jogoDto.getCampeonatoId(), false);
 
@@ -54,10 +55,10 @@ public class JogoService {
         var times2Ids = jogos.stream().map(JogoModel::getTime2).collect(Collectors.toList());
 
         if(times1Ids.contains(jogoDto.getTimeId1()) || times2Ids.contains(jogoDto.getTimeId1()))
-            return "Time1 já está jogando.";
+            return "Time1 já está jogando!";
 
         if(times1Ids.contains(jogoDto.getTimeId2()) || times2Ids.contains(jogoDto.getTimeId2()))
-            return "Time2 já está jogando.";
+            return "Time2 já está jogando!";
 
         var jogo = new JogoModel();
 
@@ -85,6 +86,34 @@ public class JogoService {
         return jogoRepository.findById(jogoId);
     }
 
+    public Object atualizarPontuacao(AtualizarPontuacaoDto atualizarPontuacaoDto){
 
-    //TODO: atualizarPontuacao
+        if (atualizarPontuacaoDto.getTime() != 1 && atualizarPontuacaoDto.getTime() != 2)
+            return "Campo time deve ser 1 ou 2!";
+
+        var jogo = jogoRepository.findById(atualizarPontuacaoDto.getJogoId()).orElse(null);
+
+        if (jogo == null)
+            return "Jogo não encontrado!";
+
+        if(jogo.getFinalizado())
+            return "Jogo já finalizado!";
+
+        if(atualizarPontuacaoDto.getTime() == 1)
+            jogo.setPontuacaoTime1(jogo.getPontuacaoTime1() + 1);
+        else
+            jogo.setPontuacaoTime2(jogo.getPontuacaoTime2() + 1);
+
+        if((jogo.getPontuacaoTime1() >= 10 || jogo.getPontuacaoTime2() >= 10) && ( Math.abs( jogo.getPontuacaoTime1() - jogo.getPontuacaoTime2()) > 1)){
+            jogo.setFinalizado(true);
+            if(jogo.getPontuacaoTime1() > jogo.getPontuacaoTime2())
+                jogo.setVencedor(jogo.getTime1());
+            else
+                jogo.setVencedor(jogo.getTime2());
+        }
+
+        jogoRepository.save(jogo);
+
+        return jogo;
+    }
 }
