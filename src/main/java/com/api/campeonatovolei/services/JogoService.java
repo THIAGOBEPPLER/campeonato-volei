@@ -8,6 +8,7 @@ import com.api.campeonatovolei.repositories.JogoRepository;
 import com.api.campeonatovolei.repositories.TimeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,17 +26,17 @@ public class JogoService {
 
     public Object criarJogo(CriarJogoDto jogoDto){
 
-        //TODO: Validar se o campeonato existe
+        if(Objects.equals(jogoDto.getTimeId1(), jogoDto.getTimeId2()))
+            return "Um time não pode jogar contra ele mesmo!";
+
         var campeonato = campeonatoRepository.findById(jogoDto.getCampeonatoId()).orElse(null);
 
         if(campeonato == null)
             return "Campeonato não cadastrado!";
 
-        //TODO: Validar se o campeonato está em andamnento
         if(campeonato.getFinalizado())
             return "Campeonato já foi finalizado";
 
-        //TODO: Validar se os times estão no campeonato
 
         var times = campeonato.getTimes();
 
@@ -47,10 +48,16 @@ public class JogoService {
         if(!timesIds.contains(jogoDto.getTimeId2()))
             return "Time2 não está nesse campeonato";
 
+        var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(jogoDto.getCampeonatoId(), false);
 
-        //TODO: Validar se os times não estão jogando
-        var jogos = jogoRepository.findByCampeonatoId(jogoDto.getCampeonatoId());
+        var times1Ids = jogos.stream().map(JogoModel::getTime1).collect(Collectors.toList());
+        var times2Ids = jogos.stream().map(JogoModel::getTime2).collect(Collectors.toList());
 
+        if(times1Ids.contains(jogoDto.getTimeId1()) || times2Ids.contains(jogoDto.getTimeId1()))
+            return "Time1 já está jogando.";
+
+        if(times1Ids.contains(jogoDto.getTimeId2()) || times2Ids.contains(jogoDto.getTimeId2()))
+            return "Time2 já está jogando.";
 
         var jogo = new JogoModel();
 
@@ -66,7 +73,18 @@ public class JogoService {
         return jogo;
     }
 
-//    public Object listarTimes(){
-//        return timeRepository.findAll();
-//    }
+    public Object listarJogos(){
+        return jogoRepository.findAll();
+    }
+
+    public Object listarJogosPorCampeonato(Integer campeonatoId){
+        return jogoRepository.findByCampeonatoId(campeonatoId);
+    }
+
+    public Object buscarJogo(Integer jogoId){
+        return jogoRepository.findById(jogoId);
+    }
+
+
+    //TODO: atualizarPontuacao
 }

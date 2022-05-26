@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface JogoRepository extends JpaRepository<JogoModel, Integer> {
 
-        List<JogoModel> findByCampeonatoId(Integer campeonatoId);
+    List<JogoModel> findByCampeonatoId(Integer campeonatoId);
 
     List<JogoModel> findByCampeonatoIdAndFinalizado(Integer campeonatoId, Boolean finalizado);
 
