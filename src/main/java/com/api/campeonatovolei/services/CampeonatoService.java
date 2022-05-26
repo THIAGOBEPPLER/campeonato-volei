@@ -3,13 +3,17 @@ package com.api.campeonatovolei.services;
 import com.api.campeonatovolei.dtos.CriarCampeonatoDto;
 import com.api.campeonatovolei.dtos.FinalizarCampeonatoDto;
 import com.api.campeonatovolei.entities.CampeonatoModel;
+import com.api.campeonatovolei.entities.JogoModel;
 import com.api.campeonatovolei.entities.TimeModel;
+import com.api.campeonatovolei.models.TabelaModel;
 import com.api.campeonatovolei.repositories.CampeonatoRepository;
 import com.api.campeonatovolei.repositories.JogoRepository;
 import com.api.campeonatovolei.repositories.TimeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 @Service
 public class CampeonatoService {
@@ -70,12 +74,65 @@ public class CampeonatoService {
         campeonato.setFinalizado(true);
         campeonatoRepository.save(campeonato);
 
-        //TODO: Retornar tabela calculada
-        return campeonato;
+        return tabela(campeonato.getId());
     }
 
-    public Object tabela(Integer id){
-        //TODO: Retornar tabela calculada
-        return "Tabela campeonato " + id;
+    public Object tabela(Integer campeonatoId){
+
+        var campeonato = campeonatoRepository.findById(campeonatoId).orElse(null);
+
+        if (campeonato == null)
+            return "Campeonato não cadastrado";
+
+        var times = campeonato.getTimes();
+
+        var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(campeonatoId, true);
+
+        var times1Ids = jogos.stream().map(JogoModel::getTime1).collect(Collectors.toList());
+        var times2Ids = jogos.stream().map(JogoModel::getTime2).collect(Collectors.toList());
+        var vencedores = jogos.stream().map(JogoModel::getVencedor).collect(Collectors.toList());
+
+        var tabela = new ArrayList<TabelaModel>();
+
+
+        for (var time : times) {
+
+            var timeJogos1 = times1Ids.stream()
+                    .filter(x -> x.equals(time.getId()))
+                    .count();
+
+            var timeJogos2 = times2Ids.stream()
+                    .filter(x -> x.equals(time.getId()))
+                    .count();
+
+            var vitorias = vencedores.stream()
+                    .filter(x -> x.equals(time.getId()))
+                    .count();
+
+            var numeroJogos = timeJogos1 + timeJogos2;
+
+            var saldo = 0;
+
+            for ( var jogo: jogos) {
+
+                if(jogo.getTime1() == time.getId())
+                    saldo = saldo +( jogo.getPontuacaoTime1() - jogo.getPontuacaoTime2());
+                else if(jogo.getTime2() == time.getId())
+                    saldo = saldo +( jogo.getPontuacaoTime2() - jogo.getPontuacaoTime1());
+            }
+
+            TabelaModel tabelaTime = new TabelaModel();
+            tabelaTime.setJogos((int) numeroJogos);
+            tabelaTime.setVitorias((int) vitorias);
+            tabelaTime.setTimeId(time.getId());
+            tabelaTime.setPontos((int) vitorias * 3);
+            tabelaTime.setSaldo(saldo);
+
+            tabela.add(tabelaTime);
+        }
+
+        tabela.sort(Comparator.comparing((TabelaModel::getPontos)).reversed());
+
+        return tabela;
     }
 }
