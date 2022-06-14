@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "bee6d807-995f-46dc-9af4-5806f763ac20",
+		"name": "Volei",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Time",
+			"item": [
+				{
+					"name": "adicionarTime",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\":\"time\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/time",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"time"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarTimes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/time",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"time"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Campeonato",
+			"item": [
+				{
+					"name": "criarCampeonato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\":\"campeonato\",\n    \"times\": [1,2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/campeonato/novo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"campeonato",
+								"novo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalizarCampeonato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 9\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/campeonato/finalizar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"campeonato",
+								"finalizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tabela",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/campeonato/tabela/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"campeonato",
+								"tabela",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarCampeonatos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/campeonato/lista",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"campeonato",
+								"lista"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jogo",
+			"item": [
+				{
+					"name": "listarJogos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/jogo",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jogo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscarJogo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/jogo/6",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jogo",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criarJogo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"campeonatoId\": 9,\n    \"timeId1\": 1,\n    \"timeId2\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/jogo/criar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jogo",
+								"criar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizarPontuacao",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"jogoId\": 10,\n    \"time\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/jogo/atualizarPontuacao",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jogo",
+								"atualizarPontuacao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarJogosPorCampeonato Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/jogo/campeonato/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jogo",
+								"campeonato",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
