@@ -22,7 +22,12 @@ public class JogoController {
 
     @PostMapping("/criar")
     public ResponseEntity<Object> criarJogo(@RequestBody CriarJogoDto body){
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(body));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(body));
+
+        } catch (IllegalArgumentException  e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
@@ -42,7 +47,14 @@ public class JogoController {
 
     @PostMapping("/atualizarPontuacao")
     public ResponseEntity<Object> atualizarPontuacao(@RequestBody AtualizarPontuacaoDto body){
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.atualizarPontuacao(body));
+
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.atualizarPontuacao(body));
+        } catch (IllegalArgumentException  e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+
     }
 
 }

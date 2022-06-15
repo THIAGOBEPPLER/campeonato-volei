@@ -28,15 +28,15 @@ public class JogoService {
     public Object criarJogo(CriarJogoDto jogoDto){
 
         if(Objects.equals(jogoDto.getTimeId1(), jogoDto.getTimeId2()))
-            return "Um time não pode jogar contra ele mesmo!";
+            throw new IllegalArgumentException( "Um time não pode jogar contra ele mesmo!");
 
         var campeonato = campeonatoRepository.findById(jogoDto.getCampeonatoId()).orElse(null);
 
         if(campeonato == null)
-            return "Campeonato não cadastrado!";
+            throw new IllegalArgumentException( "Campeonato não cadastrado!");
 
         if(campeonato.getFinalizado())
-            return "Campeonato já foi finalizado!";
+            throw new IllegalArgumentException( "Campeonato já foi finalizado!");
 
 
         var times = campeonato.getTimes();
@@ -44,10 +44,10 @@ public class JogoService {
         var timesIds = times.stream().map(TimeModel::getId).collect(Collectors.toList());
 
         if(!timesIds.contains(jogoDto.getTimeId1()))
-            return "Time1 não está nesse campeonato!";
+            throw new IllegalArgumentException( "Time1 não está nesse campeonato!");
 
         if(!timesIds.contains(jogoDto.getTimeId2()))
-            return "Time2 não está nesse campeonato!";
+            throw new IllegalArgumentException( "Time2 não está nesse campeonato!");
 
         var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(jogoDto.getCampeonatoId(), false);
 
@@ -55,10 +55,10 @@ public class JogoService {
         var times2Ids = jogos.stream().map(JogoModel::getTime2).collect(Collectors.toList());
 
         if(times1Ids.contains(jogoDto.getTimeId1()) || times2Ids.contains(jogoDto.getTimeId1()))
-            return "Time1 já está jogando!";
+            throw new IllegalArgumentException( "Time1 já está jogando!");
 
         if(times1Ids.contains(jogoDto.getTimeId2()) || times2Ids.contains(jogoDto.getTimeId2()))
-            return "Time2 já está jogando!";
+            throw new IllegalArgumentException( "Time2 já está jogando!");
 
         var jogo = new JogoModel();
 
@@ -89,15 +89,15 @@ public class JogoService {
     public Object atualizarPontuacao(AtualizarPontuacaoDto atualizarPontuacaoDto){
 
         if (atualizarPontuacaoDto.getTime() != 1 && atualizarPontuacaoDto.getTime() != 2)
-            return "Campo time deve ser 1 ou 2!";
+            throw new IllegalArgumentException( "Campo time deve ser 1 ou 2!");
 
         var jogo = jogoRepository.findById(atualizarPontuacaoDto.getJogoId()).orElse(null);
 
         if (jogo == null)
-            return "Jogo não encontrado!";
+            throw new IllegalArgumentException( "Jogo não encontrado!");
 
         if(jogo.getFinalizado())
-            return "Jogo já finalizado!";
+            throw new IllegalArgumentException( "Jogo já finalizado!");
 
         if(atualizarPontuacaoDto.getTime() == 1)
             jogo.setPontuacaoTime1(jogo.getPontuacaoTime1() + 1);

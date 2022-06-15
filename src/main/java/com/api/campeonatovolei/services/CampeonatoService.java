@@ -55,21 +55,21 @@ public class CampeonatoService {
         return campeonatoRepository.findAll();
     }
 
-    public Object finalizarCampeonato(FinalizarCampeonatoDto finalizarCampeonato){
+    public Object finalizarCampeonato(FinalizarCampeonatoDto finalizarCampeonato)  {
 
         var id = finalizarCampeonato.getId();
         var campeonato = campeonatoRepository.findById(id).orElse(null);
 
         if (campeonato == null)
-            return "Campeonato não cadastrado";
+            throw new IllegalArgumentException("Campeonato não cadastrado");
 
         var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(finalizarCampeonato.getId(), false);
 
         if (jogos.size() != 0)
-            return "Esse campeonato possui jogos em andamento";
+            throw new IllegalArgumentException("Esse campeonato possui jogos em andamento");
 
         if (campeonato.getFinalizado())
-            return "Campeonato já finalizado";
+            throw new IllegalArgumentException("Campeonato já finalizado");
 
         campeonato.setFinalizado(true);
         campeonatoRepository.save(campeonato);
@@ -82,7 +82,7 @@ public class CampeonatoService {
         var campeonato = campeonatoRepository.findById(campeonatoId).orElse(null);
 
         if (campeonato == null)
-            return "Campeonato não cadastrado";
+            throw new IllegalArgumentException( "Campeonato não cadastrado");
 
         var times = campeonato.getTimes();
 
