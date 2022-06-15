@@ -21,7 +21,7 @@ public class CampeonatoController {
 
     @PostMapping("/novo")
     public ResponseEntity<Object> adicionarTime(@RequestBody CriarCampeonatoDto model){
-        return ResponseEntity.status(HttpStatus.CREATED).body(campeonatoService.CriarCampeonato(model));
+        return ResponseEntity.status(HttpStatus.CREATED).body(campeonatoService.criarCampeonato(model));
     }
 
     @GetMapping("/lista")

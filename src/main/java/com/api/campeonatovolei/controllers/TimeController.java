@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import com.api.campeonatovolei.services.TimeService;
 
 @RestController
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/time")
 public class TimeController {
 
@@ -29,8 +28,4 @@ public class TimeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(timeService.listarTimes());
     }
 
-//    @GetMapping("/teste")
-//    public String index(){
-//        return "Olá Mundo!";
-//    }
 }

@@ -29,7 +29,7 @@ public class CampeonatoService {
     }
 
 
-    public CampeonatoModel CriarCampeonato(CriarCampeonatoDto campeonato){
+    public CampeonatoModel criarCampeonato(CriarCampeonatoDto campeonato){
 
         var  campeonatoModel= new CampeonatoModel();
 
