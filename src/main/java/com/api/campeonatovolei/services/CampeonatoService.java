@@ -29,7 +29,7 @@ public class CampeonatoService {
     }
 
 
-    public Object CriarCampeonato(CriarCampeonatoDto campeonato){
+    public CampeonatoModel CriarCampeonato(CriarCampeonatoDto campeonato){
 
         var  campeonatoModel= new CampeonatoModel();
 
@@ -51,11 +51,11 @@ public class CampeonatoService {
         return campeonatoRepository.save(campeonatoModel);
     }
 
-    public Object listarCampeonatos(){
-        return campeonatoRepository.findAll();
+    public ArrayList<CampeonatoModel> listarCampeonatos(){
+        return (ArrayList<CampeonatoModel>) campeonatoRepository.findAll();
     }
 
-    public Object finalizarCampeonato(FinalizarCampeonatoDto finalizarCampeonato)  {
+    public ArrayList<TabelaModel> finalizarCampeonato(FinalizarCampeonatoDto finalizarCampeonato)  {
 
         var id = finalizarCampeonato.getId();
         var campeonato = campeonatoRepository.findById(id).orElse(null);
@@ -77,7 +77,7 @@ public class CampeonatoService {
         return tabela(campeonato.getId());
     }
 
-    public Object tabela(Integer campeonatoId){
+    public ArrayList<TabelaModel> tabela(Integer campeonatoId){
 
         var campeonato = campeonatoRepository.findById(campeonatoId).orElse(null);
 

@@ -5,6 +5,8 @@ import com.api.campeonatovolei.entities.TimeModel;
 import org.springframework.stereotype.Service;
 import com.api.campeonatovolei.repositories.TimeRepository;
 
+import java.util.ArrayList;
+
 @Service
 public class TimeService {
 
@@ -14,7 +16,7 @@ public class TimeService {
         this.timeRepository = timeRepository;
     }
 
-    public Object adicionarTime(TimeDto time){
+    public TimeModel adicionarTime(TimeDto time){
 
         var timeModel = new TimeModel();
 
@@ -23,7 +25,8 @@ public class TimeService {
         return timeRepository.save(timeModel);
     }
 
-    public Object listarTimes(){
-        return timeRepository.findAll();
+    public ArrayList<TimeModel> listarTimes(){
+
+        return (ArrayList<TimeModel>) timeRepository.findAll();
     }
 }

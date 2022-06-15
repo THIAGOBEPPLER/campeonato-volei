@@ -9,7 +9,9 @@ import com.api.campeonatovolei.repositories.JogoRepository;
 import com.api.campeonatovolei.repositories.TimeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,15 +76,17 @@ public class JogoService {
         return jogo;
     }
 
-    public Object listarJogos(){
-        return jogoRepository.findAll();
+    public ArrayList<JogoModel> listarJogos(){
+
+        return (ArrayList<JogoModel>) jogoRepository.findAll();
     }
 
-    public Object listarJogosPorCampeonato(Integer campeonatoId){
-        return jogoRepository.findByCampeonatoId(campeonatoId);
+    public ArrayList<JogoModel> listarJogosPorCampeonato(Integer campeonatoId){
+        return (ArrayList<JogoModel>) jogoRepository.findByCampeonatoId(campeonatoId);
     }
 
-    public Object buscarJogo(Integer jogoId){
+    public Optional<JogoModel> buscarJogo(Integer jogoId){
+
         return jogoRepository.findById(jogoId);
     }
 
