@@ -92,28 +92,35 @@ public class JogoService {
 
     public Object atualizarPontuacao(AtualizarPontuacaoDto atualizarPontuacaoDto){
 
-        if (atualizarPontuacaoDto.getTime() != 1 && atualizarPontuacaoDto.getTime() != 2)
-            throw new IllegalArgumentException( "Campo time deve ser 1 ou 2!");
+        if (atualizarPontuacaoDto.getTime() != 1 && atualizarPontuacaoDto.getTime() != 2) {
+            throw new IllegalArgumentException("Campo time deve ser 1 ou 2!");
+        }
 
         var jogo = jogoRepository.findById(atualizarPontuacaoDto.getJogoId()).orElse(null);
 
-        if (jogo == null)
-            throw new IllegalArgumentException( "Jogo não encontrado!");
+        if (jogo == null) {
+            throw new IllegalArgumentException("Jogo não encontrado!");
+        }
 
-        if(jogo.getFinalizado())
-            throw new IllegalArgumentException( "Jogo já finalizado!");
+        if(jogo.getFinalizado()) {
+            throw new IllegalArgumentException("Jogo já finalizado!");
+        }
 
-        if(atualizarPontuacaoDto.getTime() == 1)
+        if(atualizarPontuacaoDto.getTime() == 1) {
             jogo.setPontuacaoTime1(jogo.getPontuacaoTime1() + 1);
-        else
+        }
+        else {
             jogo.setPontuacaoTime2(jogo.getPontuacaoTime2() + 1);
+        }
 
         if((jogo.getPontuacaoTime1() >= 10 || jogo.getPontuacaoTime2() >= 10) && ( Math.abs( jogo.getPontuacaoTime1() - jogo.getPontuacaoTime2()) > 1)){
             jogo.setFinalizado(true);
-            if(jogo.getPontuacaoTime1() > jogo.getPontuacaoTime2())
+            if(jogo.getPontuacaoTime1() > jogo.getPontuacaoTime2()) {
                 jogo.setVencedor(jogo.getTime1());
-            else
+            }
+            else {
                 jogo.setVencedor(jogo.getTime2());
+            }
         }
 
         jogoRepository.save(jogo);

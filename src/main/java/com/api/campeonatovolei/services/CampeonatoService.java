@@ -33,15 +33,15 @@ public class CampeonatoService {
 
         var  campeonatoModel= new CampeonatoModel();
 
-
         ArrayList<TimeModel> listaTimes = new ArrayList<>();
 
         for ( Integer time: campeonato.getTimes()) {
 
             var timeModel = timeRepository.findById(time).orElse(null);
 
-            if(timeModel != null)
+            if(timeModel != null) {
                 listaTimes.add(timeModel);
+            }
         }
 
         campeonatoModel.setNome(campeonato.getNome());
@@ -60,16 +60,19 @@ public class CampeonatoService {
         var id = finalizarCampeonato.getId();
         var campeonato = campeonatoRepository.findById(id).orElse(null);
 
-        if (campeonato == null)
+        if (campeonato == null){
             throw new IllegalArgumentException("Campeonato não cadastrado");
+        }
 
         var jogos = jogoRepository.findByCampeonatoIdAndFinalizado(finalizarCampeonato.getId(), false);
 
-        if (jogos.size() != 0)
+        if (jogos.size() != 0) {
             throw new IllegalArgumentException("Esse campeonato possui jogos em andamento");
+        }
 
-        if (campeonato.getFinalizado())
+        if (campeonato.getFinalizado()) {
             throw new IllegalArgumentException("Campeonato já finalizado");
+        }
 
         campeonato.setFinalizado(true);
         campeonatoRepository.save(campeonato);
@@ -81,8 +84,9 @@ public class CampeonatoService {
 
         var campeonato = campeonatoRepository.findById(campeonatoId).orElse(null);
 
-        if (campeonato == null)
-            throw new IllegalArgumentException( "Campeonato não cadastrado");
+        if (campeonato == null) {
+            throw new IllegalArgumentException("Campeonato não cadastrado");
+        }
 
         var times = campeonato.getTimes();
 
@@ -93,7 +97,6 @@ public class CampeonatoService {
         var vencedores = jogos.stream().map(JogoModel::getVencedor).collect(Collectors.toList());
 
         var tabela = new ArrayList<TabelaModel>();
-
 
         for (var time : times) {
 
