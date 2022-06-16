@@ -2,7 +2,7 @@ package com.api.campeonatovolei.controllers;
 
 import com.api.campeonatovolei.dtos.CriarCampeonatoDto;
 import com.api.campeonatovolei.dtos.FinalizarCampeonatoDto;
-import com.api.campeonatovolei.services.CampeonatoService;
+import com.api.campeonatovolei.interefaces.CampeonatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/campeonato")
 public class CampeonatoController {
-
-    final CampeonatoService campeonatoService;
-
     @Autowired
-    public CampeonatoController(CampeonatoService campeonatoService) {
-        this.campeonatoService = campeonatoService;
-    }
+    CampeonatoService campeonatoService;
 
     @PostMapping("/novo")
     public ResponseEntity<Object> adicionarTime(@RequestBody CriarCampeonatoDto model){

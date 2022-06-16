@@ -2,7 +2,7 @@ package com.api.campeonatovolei.controllers;
 
 import com.api.campeonatovolei.dtos.AtualizarPontuacaoDto;
 import com.api.campeonatovolei.dtos.CriarJogoDto;
-import com.api.campeonatovolei.services.JogoService;
+import com.api.campeonatovolei.interefaces.JogoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/jogo")
 public class JogoController {
 
-    final JogoService jogoService;
-
     @Autowired
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
-    }
+    JogoService jogoService;
 
     @PostMapping("/criar")
     public ResponseEntity<Object> criarJogo(@RequestBody CriarJogoDto body){

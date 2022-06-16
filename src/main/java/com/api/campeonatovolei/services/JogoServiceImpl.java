@@ -4,9 +4,11 @@ import com.api.campeonatovolei.dtos.AtualizarPontuacaoDto;
 import com.api.campeonatovolei.dtos.CriarJogoDto;
 import com.api.campeonatovolei.entities.JogoModel;
 import com.api.campeonatovolei.entities.TimeModel;
+import com.api.campeonatovolei.interefaces.JogoService;
 import com.api.campeonatovolei.repositories.CampeonatoRepository;
 import com.api.campeonatovolei.repositories.JogoRepository;
 import com.api.campeonatovolei.repositories.TimeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,17 +17,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class JogoService {
+public class JogoServiceImpl implements JogoService {
 
-    final JogoRepository jogoRepository;
-    final CampeonatoRepository campeonatoRepository;
-    final TimeRepository timeRepository;
-
-    public JogoService(JogoRepository jogoRepository, CampeonatoRepository campeonatoRepository, TimeRepository timeRepository) {
-        this.jogoRepository = jogoRepository;
-        this.campeonatoRepository = campeonatoRepository;
-        this.timeRepository = timeRepository;
-    }
+    @Autowired
+    JogoRepository jogoRepository;
+    @Autowired
+    CampeonatoRepository campeonatoRepository;
+    @Autowired
+    TimeRepository timeRepository;
 
     public Object criarJogo(CriarJogoDto jogoDto){
 

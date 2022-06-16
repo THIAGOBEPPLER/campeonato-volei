@@ -5,10 +5,12 @@ import com.api.campeonatovolei.dtos.FinalizarCampeonatoDto;
 import com.api.campeonatovolei.entities.CampeonatoModel;
 import com.api.campeonatovolei.entities.JogoModel;
 import com.api.campeonatovolei.entities.TimeModel;
+import com.api.campeonatovolei.interefaces.CampeonatoService;
 import com.api.campeonatovolei.models.TabelaModel;
 import com.api.campeonatovolei.repositories.CampeonatoRepository;
 import com.api.campeonatovolei.repositories.JogoRepository;
 import com.api.campeonatovolei.repositories.TimeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,18 +18,14 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
-public class CampeonatoService {
+public class CampeonatoServiceImpl implements CampeonatoService {
 
-    final CampeonatoRepository campeonatoRepository;
-    final TimeRepository timeRepository;
-    final JogoRepository jogoRepository;
-
-    public CampeonatoService(CampeonatoRepository campeonatoRepository, TimeRepository timeRepository, JogoRepository jogoRepository) {
-        this.campeonatoRepository = campeonatoRepository;
-        this.timeRepository = timeRepository;
-        this.jogoRepository = jogoRepository;
-    }
-
+    @Autowired
+     CampeonatoRepository campeonatoRepository;
+    @Autowired
+    TimeRepository timeRepository;
+    @Autowired
+    JogoRepository jogoRepository;
 
     public CampeonatoModel criarCampeonato(CriarCampeonatoDto campeonato){
 
